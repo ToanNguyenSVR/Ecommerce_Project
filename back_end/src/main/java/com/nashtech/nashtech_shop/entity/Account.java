@@ -1,6 +1,7 @@
 package com.nashtech.nashtech_shop.entity;
 
 
+import ch.qos.logback.classic.db.names.ColumnName;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -33,7 +34,7 @@ public class Account {
     private RoleUser roleUser ;
 
     @ManyToOne
-    @JoinColumn(name = "order_tbl_id")
-    private Orderr_tbl orderrTbl;
+    @JoinColumn(name = "order_id")
+    private Order order;
 
 }

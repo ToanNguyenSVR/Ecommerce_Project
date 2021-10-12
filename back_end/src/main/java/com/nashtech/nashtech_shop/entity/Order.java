@@ -7,10 +7,10 @@ import javax.persistence.*;
 import java.util.List;
 
 
-@Entity
+@Entity(name = "Order_tbl")
 @Data
 
-public class Orderr_tbl {
+public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,11 +23,11 @@ public class Orderr_tbl {
 
 
 
-    @OneToMany(mappedBy = "orderrTbl" , cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order" , cascade = CascadeType.ALL)
     private List<Account> accounts;
 
 
-    @OneToMany(mappedBy = "orderrTbl" , cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order" , cascade = CascadeType.ALL)
     private List<OrderDetail> orderDetails ;
 
     @ManyToOne

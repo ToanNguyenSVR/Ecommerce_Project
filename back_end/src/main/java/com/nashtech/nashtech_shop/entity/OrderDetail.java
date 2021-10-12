@@ -21,7 +21,7 @@ public class OrderDetail {
 
     @ManyToOne
     @JoinColumn(name = "order_id")
-    private Orderr_tbl orderrTbl;
+    private Order order;
 
 
     @ManyToOne
