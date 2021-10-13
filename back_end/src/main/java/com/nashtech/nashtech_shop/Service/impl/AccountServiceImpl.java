@@ -15,10 +15,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account  checkLogin (String email) {
-        Account account  = accountReponsitory.findByEmail(email) ;
-        if( account != null ) {
-                return null ;
-        }
+
     return null ;
     }
 }

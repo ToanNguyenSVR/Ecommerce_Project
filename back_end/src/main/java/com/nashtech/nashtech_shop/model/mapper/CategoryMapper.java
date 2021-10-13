@@ -7,7 +7,7 @@ import com.nashtech.nashtech_shop.model.dto.CategoryDTO;
 
 
 public class CategoryMapper {
-    public CategoryDTO ToCategoryDTO (Category category){
+    public CategoryDTO toCategoryDTO (Category category){
         CategoryDTO categoryDTO = new CategoryDTO();
         categoryDTO.setId(category.getId());
         categoryDTO.setName(category.getName());
