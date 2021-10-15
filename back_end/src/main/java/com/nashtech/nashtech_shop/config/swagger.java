@@ -19,19 +19,19 @@ public class swagger {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.nashtech.nashtech_shop.APIController"))
-                .paths(PathSelectors.ant("/v1/*"))
+                .apis(RequestHandlerSelectors.any())
+                .paths(PathSelectors.any())
                 .build()
                 .apiInfo(apiInfo());
     }
 
     private ApiInfo apiInfo() {
         return new ApiInfo(
-                "My REST API",
+                "Shop_NashTech API ",
                 "Some custom description of API.",
-                "API TOS",
+                "API V_T",
                 "Terms of service",
-                new Contact("John Doe", "www.example.com", "myeaddress@company.com"),
+                new Contact("Nguyen Huu Toan", "https://www.facebook.com/HT.nguyentoan/", "toannguyen.srv@gmail.com"),
                 "License of API", "API license URL", Collections.emptyList());
     }
 }

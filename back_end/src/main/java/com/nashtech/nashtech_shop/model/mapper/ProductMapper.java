@@ -8,7 +8,7 @@ import com.nashtech.nashtech_shop.model.dto.ProductDTO;
 public class ProductMapper {
 
 
-    public ProductDTO ToProductDTO (Product product){
+    public static ProductDTO ToProductDTO (Product product){
         ProductDTO productDTO = new ProductDTO();
         productDTO.setId(product.getId());
         productDTO.setPrice(product.getPrice());

@@ -26,7 +26,7 @@ public class ProductDTO {
 
     private String color ;
 
-    private String sold ;
+    private int sold ;
 
     private int quantity  ;
 

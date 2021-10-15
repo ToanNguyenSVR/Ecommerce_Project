@@ -2,8 +2,9 @@ package com.nashtech.nashtech_shop.model.dto;
 
 
 
-import lombok.Data;
+import com.nashtech.nashtech_shop.entity.RoleAccount;
 
+import lombok.Data;
 
 @Data
 public class AccountDTO {
@@ -18,6 +19,8 @@ public class AccountDTO {
     private String gender ;
     private String create_date ;
     private String imageUrl  ;
+    private String roleAccount;
+
 
 
 

@@ -10,7 +10,7 @@ import java.util.List;
 @Entity
 @Data
 
-public class  RoleUser {
+public class RoleAccount {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,7 +18,7 @@ public class  RoleUser {
 
     private String  role ;
 
-    @OneToMany(mappedBy = "roleUser" , cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "roleAccount" , cascade = CascadeType.ALL)
     private List<Account> accounts;
 
 
