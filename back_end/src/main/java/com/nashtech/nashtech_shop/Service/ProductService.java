@@ -12,7 +12,8 @@ import java.util.List;
 @Service
 public interface ProductService {
     public Page<ProductDTO> findAll(Pageable page ) ;
-    public Page<ProductDTO> searchProduct(Pageable Page , String name , String category) ;
+    public Page<ProductDTO> searchProduct(Pageable Page , String key  , int  category , int  subCategory) ;
+    public ProductDTO findById (Long id) ;
     public ProductDTO createProduct(Product product) ;
     public ProductDTO updateProduct(Long id , Product product) ;
     public ProductDTO deleteProduct(Long id );
