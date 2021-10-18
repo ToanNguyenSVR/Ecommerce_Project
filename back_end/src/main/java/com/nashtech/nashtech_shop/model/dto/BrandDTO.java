@@ -1,6 +1,7 @@
 package com.nashtech.nashtech_shop.model.dto;
 
 
+import com.nashtech.nashtech_shop.entity.Brand;
 import com.nashtech.nashtech_shop.entity.Product;
 import lombok.Data;
 
@@ -16,9 +17,13 @@ public class BrandDTO {
 
     private String name ;
 
-    private String madeIn ;
+    public static BrandDTO ToBrandDTO (Brand Brand){
+        BrandDTO brandDTO = new BrandDTO();
+        brandDTO.setId(Brand.getId());
+        brandDTO.setName(Brand.getName());
 
-    private String decription ;
+        return brandDTO ;
+    }
 
 
 

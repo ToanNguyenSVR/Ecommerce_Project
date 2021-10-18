@@ -3,7 +3,7 @@ package com.nashtech.nashtech_shop.model.dto;
 
 
 import com.nashtech.nashtech_shop.entity.Account;
-import com.nashtech.nashtech_shop.entity.RoleAccount;
+
 
 import lombok.Data;
 

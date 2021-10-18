@@ -1,14 +1,18 @@
 package com.nashtech.nashtech_shop.entity;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.List;
 
 @Data
 @Entity
-
+@AllArgsConstructor
+@NoArgsConstructor
 public class Product {
 
     @Id
@@ -23,8 +27,6 @@ public class Product {
 
     private String image ;
 
-    private String color ;
-
     private int sold ;
 
     private int quantity  ;
@@ -38,10 +40,6 @@ public class Product {
     private List<OrderDetail> orderDetails ;
 
     @ManyToOne
-    @JoinColumn(name = "subCategory_id")
-    private SubCategory subCategory ;
-
-    @ManyToOne
     @JoinColumn(name = "statusProduct_id")
     private StatusProduct statusProduct ;
 
@@ -53,9 +51,8 @@ public class Product {
     @JoinColumn(name = "brand_id")
     private Brand brand ;
 
-    @ManyToOne
-    @JoinColumn(name = "productImage_id")
-    private ProductImage productImages ;
+    @OneToMany(mappedBy = "product" , cascade = CascadeType.ALL )
+    private List<ProductImage> productImages;
 
 
 }

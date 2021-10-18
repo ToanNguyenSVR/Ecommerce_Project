@@ -1,7 +1,9 @@
 package com.nashtech.nashtech_shop.entity;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
@@ -9,7 +11,8 @@ import java.util.List;
 
 @Entity
 @Data
-
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProductImage {
 
     @Id
@@ -18,8 +21,9 @@ public class ProductImage {
 
     private String imageUrl ;
 
-    @OneToMany(mappedBy = "productImages" , cascade = CascadeType.ALL)
-    private List<Product> products ;
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
 
 
 }

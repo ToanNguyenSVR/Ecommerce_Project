@@ -1,27 +1,26 @@
 package com.nashtech.nashtech_shop.Service.impl;
 
-import com.nashtech.nashtech_shop.Service.AccountService;
+
 import com.nashtech.nashtech_shop.Service.ProductService;
-import com.nashtech.nashtech_shop.entity.Account;
+
 import com.nashtech.nashtech_shop.entity.Product;
-import com.nashtech.nashtech_shop.entity.RoleAccount;
-import com.nashtech.nashtech_shop.model.dto.AccountDTO;
+
 import com.nashtech.nashtech_shop.model.dto.ProductDTO;
-import com.nashtech.nashtech_shop.model.mapper.AccountMapper;
-import com.nashtech.nashtech_shop.model.mapper.ProductMapper;
-import com.nashtech.nashtech_shop.reponsitory.AccountReponsitory;
+
 import com.nashtech.nashtech_shop.reponsitory.ProductReponsitory;
-import com.nashtech.nashtech_shop.reponsitory.RoleAccountReponsitory;
-import javassist.NotFoundException;
-import org.hibernate.SessionFactory;
+
+import com.nashtech.nashtech_shop.utils.MyConstants;
+import org.hibernate.mapping.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.logging.Logger;
 
 
 @Service
@@ -36,44 +35,89 @@ public class ProductServiceImpl implements ProductService {
         Page<Product> products = null;
         products = productReponsitory.findAll(page);
         if (products != null) {
-            productDTOS = products.map(ProductMapper::ToProductDTO);
+            productDTOS = products.map(ProductDTO::ToProductDTO);
         }
         return productDTOS;
     }
 
     @Override
-    public Page<ProductDTO> searchProduct(Pageable Page, String key, int category, int subCategory) {
-        Page<ProductDTO> result = null;
+    public Page<ProductDTO> searchProduct(int pageNumber, String key, int category, int subCategory, int brand, String sort) {
+        Page<Product> result = null;
+        key = key.trim();
+        List<Sort.Order> order = new ArrayList<Sort.Order>();
 
-        if (subCategory != -1) {
-            result = productReponsitory
-                    .findProductsBySubCategoryId(Page, "%" + key + "%", subCategory)
-                    .map(ProductMapper::ToProductDTO);
-        } else if (category != -1) {
-            result = productReponsitory
-                    .findProductsByCategory(Page, category, "%" + key + "%")
-                    .map(ProductMapper::ToProductDTO);
-        } else {
-            result = productReponsitory
-                    .findProductsByName(Page, "%" + key + "%")
-                    .map(ProductMapper::ToProductDTO);
+        if (!sort.equals(" ")) {
+            for (String s : MyConstants.SORT_OPERATOR) {
+                if (sort.equalsIgnoreCase(s))
+                    order.add(new Sort.Order(Sort.Direction.fromString(sort), MyConstants.SORT_COLUM));
+            }
         }
 
-        return result;
+        if (brand != -1) {
+            result = productReponsitory
+                    .getProductsByBrandId(PageRequest.of(pageNumber, MyConstants.PAGE_SIZE, Sort.by(order)), "%" + key + "%", subCategory);
+        } else if (subCategory != -1) {
+            result = productReponsitory
+                    .getProductsBySubID(PageRequest.of(pageNumber, MyConstants.PAGE_SIZE, Sort.by(order)), "%" + key + "%", subCategory);
+        } else if (category != -1) {
+            result = productReponsitory
+                    .getProductsByCategory(PageRequest.of(pageNumber, MyConstants.PAGE_SIZE, Sort.by(order)), category, "%" + key + "%");
+
+        } else {
+            result = productReponsitory
+                    .findProductsByName(PageRequest.of(pageNumber, MyConstants.PAGE_SIZE, Sort.by(order)), "%" + key + "%");
+        }
+
+        return result.map(ProductDTO::ToProductDTO);
+
     }
+
+    @Override
+    public Page<ProductDTO> filterProductByStatus(int pageNumber, String key, int category, int subCategory, int brand, int status) {
+
+        Page<Product> result = null;
+        key = key.trim();
+        List<Sort.Order> order = new ArrayList<Sort.Order>();
+
+        try {
+
+            if (status == -1) {
+                return searchProduct(pageNumber, key, category, subCategory, brand, "");
+            }
+            if (brand != -1) {
+                result = productReponsitory
+                        .getProductsByBrandIdAndStatus(PageRequest.of(pageNumber, MyConstants.PAGE_SIZE), "%" + key + "%", subCategory, status);
+            } else if (subCategory != -1) {
+                result = productReponsitory
+                        .getProductsBySubIDAndStatus(PageRequest.of(pageNumber, MyConstants.PAGE_SIZE), "%" + key + "%", subCategory, status);
+            } else if (category != -1) {
+                result = productReponsitory
+                        .getProductsByCategoryAndStatus(PageRequest.of(pageNumber, MyConstants.PAGE_SIZE), category, "%" + key + "%", status);
+
+            } else {
+                result = productReponsitory
+                        .getProductsByStatusAndKey(PageRequest.of(pageNumber, MyConstants.PAGE_SIZE), "%" + key + "%", status);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result.map(ProductDTO::ToProductDTO);
+
+    }
+
 
     @Override
     public ProductDTO findById(Long id) {
         Product product = productReponsitory.findById(id).get();
-        if(product == null ){
+        if (product == null) {
             return null;
         }
-        return ProductMapper.ToProductDTO(product);
+        return ProductDTO.ToProductDTO(product);
     }
 
     @Override
     public ProductDTO createProduct(Product product) {
-        return ProductMapper.ToProductDTO(productReponsitory.save(product));
+        return ProductDTO.ToProductDTO(productReponsitory.save(product));
     }
 
     @Override
@@ -85,7 +129,7 @@ public class ProductServiceImpl implements ProductService {
             productEntity = product;
             productReponsitory.deleteById(id);
             productReponsitory.save(productEntity);
-            return ProductMapper.ToProductDTO(productEntity);
+            return ProductDTO.ToProductDTO(productEntity);
         }
     }
 
@@ -96,7 +140,7 @@ public class ProductServiceImpl implements ProductService {
             return null;
         } else {
             productReponsitory.deleteById(id);
-            return ProductMapper.ToProductDTO(productEntity);
+            return ProductDTO.ToProductDTO(productEntity);
         }
     }
 }

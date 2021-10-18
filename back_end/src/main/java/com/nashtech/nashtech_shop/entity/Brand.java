@@ -17,9 +17,10 @@ public class Brand {
 
     private String name ;
 
-    private String madeIn ;
 
-    private String decription ;
+    @ManyToOne
+    @JoinColumn(name = "subCategory_id")
+    private SubCategory subCategory ;
 
     @OneToMany(mappedBy = "brand" , cascade = CascadeType.ALL)
     private List<Product> products ;

@@ -4,7 +4,6 @@ import com.nashtech.nashtech_shop.Service.AccountService;
 import com.nashtech.nashtech_shop.entity.Account;
 import com.nashtech.nashtech_shop.entity.RoleAccount;
 import com.nashtech.nashtech_shop.model.dto.AccountDTO;
-import com.nashtech.nashtech_shop.model.mapper.AccountMapper;
 import com.nashtech.nashtech_shop.reponsitory.AccountReponsitory;
 import com.nashtech.nashtech_shop.reponsitory.RoleAccountReponsitory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,7 @@ public class AccountServiceImpl implements AccountService {
         if(account == null ) {
             throw new UsernameNotFoundException("Account :" + email  + " is Not Found ") ;
         }
-        AccountDTO accountDTO = AccountMapper.ToAccountDTO(account);
+        AccountDTO accountDTO = AccountDTO.ToAccountDTO(account);
 
         return accountDTO ;
     }

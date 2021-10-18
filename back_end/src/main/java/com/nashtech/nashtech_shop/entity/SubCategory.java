@@ -27,7 +27,7 @@ public class SubCategory {
     private Category category ;
 
     @OneToMany(mappedBy = "subCategory" , cascade = CascadeType.ALL)
-    private List<Product> products ;
+    private List<Brand> brands ;
 
 
 }
