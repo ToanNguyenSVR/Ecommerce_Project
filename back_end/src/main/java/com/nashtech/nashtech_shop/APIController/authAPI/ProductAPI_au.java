@@ -12,9 +12,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-
+@RestController
 public class ProductAPI_au {
     @Autowired
     CategoryService categoryService ;
@@ -31,7 +32,7 @@ public class ProductAPI_au {
                                            @RequestParam(name = "subCategory_id" , defaultValue = "-1") Integer subCategoryID,
                                            @RequestParam(name = "brand_id" , defaultValue = "-1") Integer brand_id
                                            ) {
-        SubCategory subCategory = categoryService.findSubCategoryById(subCategoryID);
+      //  SubCategory subCategory = categoryService.findSubCategoryById(subCategoryID);
     return null ;
        // Product product = new Product(null , name , price, decription, image , null , quantity , create_date , null , null , subCategory , null  , null , brand_id , null  );
 

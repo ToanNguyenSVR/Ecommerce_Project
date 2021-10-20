@@ -41,6 +41,7 @@ public class AccountServiceImpl implements AccountService {
 
         }else {
             account.setRoleAccount(role);
+            accountReponsitory.save(account);
             result = true ;
         }
         return result ;

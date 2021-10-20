@@ -9,18 +9,14 @@ import com.nashtech.nashtech_shop.model.dto.ProductDTO;
 
 import com.nashtech.nashtech_shop.reponsitory.ProductReponsitory;
 
-import com.nashtech.nashtech_shop.utils.MyConstants;
-import org.hibernate.mapping.Collection;
+import com.nashtech.nashtech_shop.utils.MyUtils;
+import com.nashtech.nashtech_shop.utils.MyUtils.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -30,80 +26,74 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public Page<ProductDTO> findAll(Pageable page) {
-        Page<ProductDTO> productDTOS = null;
-        Page<Product> products = null;
-        products = productReponsitory.findAll(page);
-        if (products != null) {
-            productDTOS = products.map(ProductDTO::ToProductDTO);
+    public List<ProductDTO> findAll() {
+        List<ProductDTO> productDTOS = null;
+        List<Product> products = null;
+        try {
+            products = productReponsitory.findAll();
+            if (products != null) {
+                productDTOS = products.stream().map(ProductDTO::ToProductDTO
+                ).collect(Collectors.toList());
+            }
+        } catch (Exception e) {
+            throw e;
         }
         return productDTOS;
     }
 
     @Override
-    public Page<ProductDTO> searchProduct(int pageNumber, String key, int category, int subCategory, int brand, String sort) {
-        Page<Product> result = null;
-        key = key.trim();
-        List<Sort.Order> order = new ArrayList<Sort.Order>();
-
-        if (!sort.equals(" ")) {
-            for (String s : MyConstants.SORT_OPERATOR) {
-                if (sort.equalsIgnoreCase(s))
-                    order.add(new Sort.Order(Sort.Direction.fromString(sort), MyConstants.SORT_COLUM));
-            }
-        }
-
-        if (brand != -1) {
-            result = productReponsitory
-                    .getProductsByBrandId(PageRequest.of(pageNumber, MyConstants.PAGE_SIZE, Sort.by(order)), "%" + key + "%", subCategory);
-        } else if (subCategory != -1) {
-            result = productReponsitory
-                    .getProductsBySubID(PageRequest.of(pageNumber, MyConstants.PAGE_SIZE, Sort.by(order)), "%" + key + "%", subCategory);
-        } else if (category != -1) {
-            result = productReponsitory
-                    .getProductsByCategory(PageRequest.of(pageNumber, MyConstants.PAGE_SIZE, Sort.by(order)), category, "%" + key + "%");
-
-        } else {
-            result = productReponsitory
-                    .findProductsByName(PageRequest.of(pageNumber, MyConstants.PAGE_SIZE, Sort.by(order)), "%" + key + "%");
-        }
-
-        return result.map(ProductDTO::ToProductDTO);
-
-    }
-
-    @Override
-    public Page<ProductDTO> filterProductByStatus(int pageNumber, String key, int category, int subCategory, int brand, int status) {
-
-        Page<Product> result = null;
-        key = key.trim();
-        List<Sort.Order> order = new ArrayList<Sort.Order>();
-
+    public List<ProductDTO> searchProduct(String key, Map<String, Integer > value) {
+        List<ProductDTO> result = null;
+        List<Product> products = null;
+        boolean haveType = false;
         try {
-
-            if (status == -1) {
-                return searchProduct(pageNumber, key, category, subCategory, brand, "");
+            for (String type : MyUtils.searchType) {
+               if(value.containsKey(type.toLowerCase())){
+                   haveType = true ;
+                   System.out.println(type);
+               }
             }
-            if (brand != -1) {
-                result = productReponsitory
-                        .getProductsByBrandIdAndStatus(PageRequest.of(pageNumber, MyConstants.PAGE_SIZE), "%" + key + "%", subCategory, status);
-            } else if (subCategory != -1) {
-                result = productReponsitory
-                        .getProductsBySubIDAndStatus(PageRequest.of(pageNumber, MyConstants.PAGE_SIZE), "%" + key + "%", subCategory, status);
-            } else if (category != -1) {
-                result = productReponsitory
-                        .getProductsByCategoryAndStatus(PageRequest.of(pageNumber, MyConstants.PAGE_SIZE), category, "%" + key + "%", status);
-
-            } else {
-                result = productReponsitory
-                        .getProductsByStatusAndKey(PageRequest.of(pageNumber, MyConstants.PAGE_SIZE), "%" + key + "%", status);
+            if(haveType){
+                products = findProductByType( key, value);
+            }else{
+                products = productReponsitory.findProductsByName("%" + key +"%" );
             }
+            if(products != null ){
+                result = products.stream().map(ProductDTO::ToProductDTO).collect(Collectors.toList());
+            }
+
+
         } catch (Exception e) {
-            e.printStackTrace();
+            throw e;
         }
-        return result.map(ProductDTO::ToProductDTO);
+        return result;
+    }
+
+    private List<Product> findProductByType( String key, Map<String, Integer> value ) {
+        List<Product> result = null;
+
+        for (String type : value.keySet()) {
+            switch (type.trim().toLowerCase()){
+                case "category":
+                    result = productReponsitory.getProductsByCategory("%" + key + "%" , value.get(type));
+                    break;
+                case "subcategory":
+                    result = productReponsitory.getProductsBySubID("%" + key + "%" , value.get(type));
+                    break;
+                case "brand":
+                    result = productReponsitory.getProductsByBrandId("%" + key + "%" , value.get(type));
+                    break;
+                case "promotion":
+                    result = productReponsitory.findProductsByPromotionId(value.get(type));
+                    break;
+            }
+
+        }
+        return result ;
+
 
     }
+
 
 
     @Override
@@ -121,16 +111,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDTO updateProduct(Long id, Product product) {
-        Product productEntity = productReponsitory.findById(id).get();
+    public ProductDTO updateProduct( Product product) {
+        Product productEntity = productReponsitory.findById(product.getId()).get();
         if (productEntity == null) {
             return null;
         } else {
-            productEntity = product;
-            productReponsitory.deleteById(id);
-            productReponsitory.save(productEntity);
-            return ProductDTO.ToProductDTO(productEntity);
+        Product r = productReponsitory.save(product);
         }
+        return ProductDTO.ToProductDTO(product);
     }
 
     @Override

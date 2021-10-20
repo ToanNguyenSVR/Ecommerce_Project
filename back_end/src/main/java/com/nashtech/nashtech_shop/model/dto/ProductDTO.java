@@ -34,6 +34,7 @@ public class ProductDTO {
     private Promotion promotion ;
 
     private  String brand ;
+    private  String subCategory ;
 
     private  List<ProductImage> productImages ;
 
@@ -49,6 +50,7 @@ public class ProductDTO {
         productDTO.setQuantity(product.getQuantity());
         productDTO.setCreateDate(product.getCreateDate());
         productDTO.setBrand(product.getBrand().getName());
+        productDTO.setSubCategory(product.getSubCategory().getName());
         productDTO.setProductImages(product.getProductImages());
 
         return productDTO ;

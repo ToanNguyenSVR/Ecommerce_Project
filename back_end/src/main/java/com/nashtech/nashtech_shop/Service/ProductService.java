@@ -8,17 +8,19 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Map;
 
 
 @Service
 public interface ProductService {
-    public Page<ProductDTO> findAll(Pageable page ) ;
-    public Page<ProductDTO> searchProduct(int pageNumber , String key  , int  category , int  subCategory , int brand , String Sort ) ;
-    public Page<ProductDTO> filterProductByStatus(int pageNumber , String key  , int  category , int  subCategory , int brand , int StatusID ) ;
+    public List<ProductDTO> findAll() ;
+    public List<ProductDTO> searchProduct(String key  , Map<String, Integer > value ) ;
+
 
     public ProductDTO findById (Long id) ;
     public ProductDTO createProduct(Product product) ;
-    public ProductDTO updateProduct(Long id , Product product) ;
+    public ProductDTO updateProduct( Product product) ;
     public ProductDTO deleteProduct(Long id );
 
 

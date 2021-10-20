@@ -1,18 +1,22 @@
 package com.nashtech.nashtech_shop.entity;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
 
-@Data
-@Entity
+@Setter
+
+@Getter
+
 @AllArgsConstructor
+
 @NoArgsConstructor
+
+
+@Entity
 public class Product {
 
     @Id
@@ -38,6 +42,10 @@ public class Product {
 
     @OneToMany(mappedBy = "product" , cascade = CascadeType.ALL)
     private List<OrderDetail> orderDetails ;
+
+    @ManyToOne
+    @JoinColumn(name = "subCategory_id")
+    private SubCategory subCategory ;
 
     @ManyToOne
     @JoinColumn(name = "statusProduct_id")
