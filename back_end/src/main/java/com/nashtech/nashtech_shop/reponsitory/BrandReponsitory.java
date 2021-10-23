@@ -7,4 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BrandReponsitory extends JpaRepository<Brand,Integer > {
+
+    public Brand findById(int  id);
+
 }

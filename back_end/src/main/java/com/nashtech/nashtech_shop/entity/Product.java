@@ -1,37 +1,44 @@
 package com.nashtech.nashtech_shop.entity;
 
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.List;
 
-@Data
-@Entity
+@Setter
 
+@Getter
+
+@AllArgsConstructor
+
+@NoArgsConstructor
+
+
+@Entity
 public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id ;
 
-    private double price ;
-
     private String name ;
+
+    private double price ;
 
     private String decription  ;
 
     private String image ;
 
-    private String color ;
+    private int sold ;
 
-    private String sold ;
 
     private int quantity  ;
 
     private  String createDate  ;
 
-    @OneToMany(mappedBy = "productTbls" , cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "products" , cascade = CascadeType.ALL)
     private List<ReviewProduct> reviewProducts ;
 
     @OneToMany(mappedBy = "product" , cascade = CascadeType.ALL)
@@ -53,9 +60,8 @@ public class Product {
     @JoinColumn(name = "brand_id")
     private Brand brand ;
 
-    @ManyToOne
-    @JoinColumn(name = "productImage_id")
-    private ProductImage productImages ;
+    @OneToMany(mappedBy = "product" , cascade = CascadeType.ALL )
+    private List<ProductImage> productImages;
 
 
 }

@@ -1,10 +1,10 @@
 package com.nashtech.nashtech_shop.entity;
 
 
-import ch.qos.logback.classic.db.names.ColumnName;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 
 @Entity
@@ -19,7 +19,6 @@ public class Account {
     private String email ;
     private String password ;
     private String fullname ;
-    private String phone ;
     private int  age ;
     private String gender ;
     private String create_date ;
@@ -31,10 +30,15 @@ public class Account {
 
     @ManyToOne
     @JoinColumn(name = "roleUser_id")
-    private RoleUser roleUser ;
+    private RoleAccount roleAccount;
 
+    @OneToMany(mappedBy = "account" , cascade = CascadeType.ALL)
+    private List<Order> order ;
     @ManyToOne
-    @JoinColumn(name = "order_id")
-    private Order order;
+    @JoinColumn(name = "address_User_id")
+    private AddressUser address_user ;
+    @OneToMany(mappedBy = "account" , cascade = CascadeType.ALL)
+    private List<ReviewProduct> reviewProducts ;
+
 
 }

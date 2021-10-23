@@ -1,14 +1,21 @@
 package com.nashtech.nashtech_shop.entity;
 
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
+@Setter
+
+@Getter
+
+@AllArgsConstructor
+
+@NoArgsConstructor
+
 
 @Entity
-@Data
 
 public class SubCategory {
 

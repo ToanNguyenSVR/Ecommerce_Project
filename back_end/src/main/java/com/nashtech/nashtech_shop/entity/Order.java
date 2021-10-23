@@ -23,8 +23,9 @@ public class Order {
 
 
 
-    @OneToMany(mappedBy = "order" , cascade = CascadeType.ALL)
-    private List<Account> accounts;
+    @ManyToOne
+    @JoinColumn(name = "account_id")
+    private  Account account ;
 
 
     @OneToMany(mappedBy = "order" , cascade = CascadeType.ALL)

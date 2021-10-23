@@ -1,15 +1,22 @@
 package com.nashtech.nashtech_shop.entity;
 
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
+@Setter
+
+@Getter
+
+@AllArgsConstructor()
+
+@NoArgsConstructor
+
+
 
 @Entity
-@Data
-
 public class  Category {
 
     @Id
@@ -25,6 +32,7 @@ public class  Category {
 
     @OneToMany(mappedBy = "category" , cascade = CascadeType.ALL)
     private List<SubCategory> subCategories ;
+
 
 
 }
