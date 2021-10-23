@@ -16,13 +16,13 @@ import java.util.Map;
 public interface ProductService {
     public List<ProductDTO> findAll() ;
     public List<ProductDTO> searchProduct(String key  , Map<String, Integer > value ) ;
-
-
     public ProductDTO findById (Long id) ;
-    public ProductDTO createProduct(Product product) ;
-    public ProductDTO updateProduct( Product product) ;
+    public ProductDTO createProduct(ProductDTO product , String[] images) throws  Exception;
+    public ProductDTO updateProduct(Long id, Map<String, String> value);
     public ProductDTO deleteProduct(Long id );
-
+    public List<ProductImageDTO> findByProductID(Long id) ;
+    public boolean create(Long id , String[] urls ) ;
+    public boolean update( Map<Long,String> urls ) ;
 
 
 }

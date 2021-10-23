@@ -15,9 +15,37 @@ public class MyUtils {
             "Brand",
             "Promotion"
     };
+    public static final String[] productProperty = {
+
+            "subcategory",
+            "brand",
+            "name",
+            "price",
+            "decription",
+            "image",
+            "quantity",
+            "promotion"
+
+
+    };
+    public static final String[] promotionProperty = {
+
+            "title",
+            "decription",
+            "imageUrl",
+            "percent",
+            "statusPromotion",
+            "endDate"
+    };
     public static final String UnActive = "UNACTIVE";
     public static final String Active = "ACTIVE";
+    public static final Integer StatusNew = 1;
+    public static final Integer StatusTOPSELLER = 2;
+    public static final Integer StatusDefaut = 3;
+    public static final Integer StatusDelete = 4;
+
     public static final String regex = ":";
+
 
     public static Map<String, String> convertValueToMap(List<String> valuesInput) {
         Map<String, String> valuesOutput = null;

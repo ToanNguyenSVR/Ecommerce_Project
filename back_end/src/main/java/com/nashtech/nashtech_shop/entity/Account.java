@@ -37,5 +37,8 @@ public class Account {
     @ManyToOne
     @JoinColumn(name = "address_User_id")
     private AddressUser address_user ;
+    @OneToMany(mappedBy = "account" , cascade = CascadeType.ALL)
+    private List<ReviewProduct> reviewProducts ;
+
 
 }

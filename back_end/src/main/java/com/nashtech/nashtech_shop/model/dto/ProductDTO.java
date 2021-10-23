@@ -31,12 +31,13 @@ public class ProductDTO {
 
     private  String createDate  ;
 
-    private Promotion promotion ;
+    private String promotion ;
 
     private  String brand ;
     private  String subCategory ;
 
-    private  List<ProductImage> productImages ;
+
+
 
     public static ProductDTO ToProductDTO (Product product){
         ProductDTO productDTO = new ProductDTO();
@@ -45,13 +46,18 @@ public class ProductDTO {
         productDTO.setName(product.getName());
         productDTO.setDecription(product.getDecription());
         productDTO.setImage(product.getImage());
-        productDTO.setPromotion( product.getPromotion());
+        if(product.getPromotion() != null ) {
+            productDTO.setPromotion(product.getPromotion().getPercent() + "%");
+        }
         productDTO.setSold(product.getSold());
         productDTO.setQuantity(product.getQuantity());
         productDTO.setCreateDate(product.getCreateDate());
-        productDTO.setBrand(product.getBrand().getName());
-        productDTO.setSubCategory(product.getSubCategory().getName());
-        productDTO.setProductImages(product.getProductImages());
+        if(product.getBrand() != null ) {
+            productDTO.setBrand(product.getBrand().getName());
+        }
+        if(product.getSubCategory() != null) {
+            productDTO.setSubCategory(product.getSubCategory().getName());
+        }
 
         return productDTO ;
     }

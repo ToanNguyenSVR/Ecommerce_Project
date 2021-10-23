@@ -26,13 +26,19 @@ public class PromotionDTO {
 
     private int percent ;
 
-    public PromotionDTO ToPromotionDTO (Promotion promotion){
+    private  String startDate ;
+
+    private  String endDate ;
+
+    public static PromotionDTO ToPromotionDTO (Promotion promotion){
         PromotionDTO promotionDTO = new PromotionDTO();
         promotionDTO.setId(promotion.getId());
         promotionDTO.setTitle(promotion.getTitle());
         promotionDTO.setDecription(promotion.getDecription());
         promotionDTO.setImageUrl(promotion.getImageUrl());
         promotionDTO.setPercent(promotion.getPercent());
+        promotionDTO.setStartDate(promotion.getStartDate());
+        promotionDTO.setEndDate(promotion.getEndDate());
 
 
         return promotionDTO ;

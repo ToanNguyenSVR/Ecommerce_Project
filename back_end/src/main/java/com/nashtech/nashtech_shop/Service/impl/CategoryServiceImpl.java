@@ -34,10 +34,10 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Stream<Object> getAllCategory() {
 
-        List<Category> categories = categoryReponsitory.findAll();
+        List<Category> categories = categoryReponsitory.findAll(MyUtils.UnActive);
         for (Category category : categories) {
             category.setSubCategories(
-                    subCategoryReponsitory.findSubCategoriesByCategoryId(category.getId())
+                    subCategoryReponsitory.findByCategoryId(category.getId() , MyUtils.UnActive)
             );
         }
         return categories.stream().map(
@@ -48,7 +48,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public SubCategoryDTO findSubCategoryById(int id) {
-        SubCategory subCategory = subCategoryReponsitory.findById(id).get();
+        SubCategory subCategory = subCategoryReponsitory.findById(id ,MyUtils.UnActive);
         if (subCategory == null) {
             return null;
         }

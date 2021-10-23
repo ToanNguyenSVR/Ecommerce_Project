@@ -19,11 +19,13 @@ public class BrandDTO {
 
     private  List<ProductDTO> productDTOS ;
 
-    public static BrandDTO ToBrandDTO (Brand Brand){
+    public static BrandDTO ToBrandDTO (Brand brand){
         BrandDTO brandDTO = new BrandDTO();
-        brandDTO.setId(Brand.getId());
-        brandDTO.setName(Brand.getName());
-        brandDTO.setProductDTOS(Brand.getProducts().stream().map(ProductDTO::ToProductDTO).collect(Collectors.toList()));
+        brandDTO.setId(brand.getId());
+        brandDTO.setName(brand.getName());
+        if(brand.getProducts() != null && brand.getProducts().size() > 0 ) {
+            brandDTO.setProductDTOS(brand.getProducts().stream().map(ProductDTO::ToProductDTO).collect(Collectors.toList()));
+        }
         return brandDTO ;
     }
 

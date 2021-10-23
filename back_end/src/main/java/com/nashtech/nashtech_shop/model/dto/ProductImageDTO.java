@@ -19,7 +19,7 @@ public class ProductImageDTO {
 
     private String imageUrl ;
 
-    public ProductImageDTO ToProductImageDTO (ProductImage productImage){
+    public static  ProductImageDTO ToProductImageDTO (ProductImage productImage){
         ProductImageDTO productImageDTO = new ProductImageDTO();
         productImageDTO.setId(productImage.getId());
         productImageDTO.setImageUrl(productImage.getImageUrl());

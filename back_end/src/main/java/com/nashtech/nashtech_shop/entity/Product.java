@@ -33,11 +33,12 @@ public class Product {
 
     private int sold ;
 
+
     private int quantity  ;
 
     private  String createDate  ;
 
-    @OneToMany(mappedBy = "productTbls" , cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "products" , cascade = CascadeType.ALL)
     private List<ReviewProduct> reviewProducts ;
 
     @OneToMany(mappedBy = "product" , cascade = CascadeType.ALL)
